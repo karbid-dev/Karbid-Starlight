@@ -1,3 +1,6 @@
+local vercount = 4 -- Live : 4
+print("Ver_Universal: 2.0." .. vercount)
+
 --[[
 
 ███████╗████████╗ █████╗ ██████╗ ██╗     ██╗ ██████╗ ██╗  ██╗████████╗    ██╗███╗   ██╗████████╗███████╗██████╗ ███████╗ █████╗  ██████╗███████╗    ███████╗██╗   ██╗██╗████████╗███████╗
@@ -8535,14 +8538,22 @@ function Starlight:CreateWindow(WindowSettings)
 					Style = Style or 1,
 				}, "__prebuiltGuiShortcutGroupbox")
 
-				windowkeybind:CreateBind({
-					Name = "Show / Hide GUI",
-					CurrentValue = WindowSettings.Keybind,
-					Callback = function(k)
-						WindowSettings.Keybind = k
-						Starlight:SaveConfig()
-					end,
-				}, "guishortcut")
+				-- windowkeybind:CreateBind({
+				-- 	Name = "Show / Hide GUI",
+				-- 	CurrentValue = WindowSettings.Keybind,
+				-- 	Callback = function(k)
+				-- 		WindowSettings.Keybind = k
+				-- 		Starlight:SaveConfig()
+				-- 	end,
+				-- }, "guishortcut")
+
+				-- windowkeybind:CreateBind({
+				-- 	Name = "bind",
+				-- 	CurrentValue = "Q",
+				-- 	Callback = function() 
+					
+				-- 	end
+				-- })
 
 				local instance = Tab:CreateGroupbox({
 					Name = "Themes",
