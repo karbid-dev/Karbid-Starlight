@@ -8535,10 +8535,9 @@ function Starlight:CreateWindow(WindowSettings)
 					Style = Style or 1,
 				}, "__prebuiltGuiShortcutGroupbox")
 
-				windowkeybind:CreateKeybind({
-					Name = "Open/Close GUI",
-					CurrentKeybind = WindowSettings.Keybind,
-					IgnoreConfig = true,
+				windowkeybind:CreateBind({
+					Name = "Show / Hide GUI",
+					CurrentValue = WindowSettings.Keybind,
 					Callback = function(k)
 						WindowSettings.Keybind = k
 						Starlight:SaveConfig()
@@ -10495,11 +10494,11 @@ if isStudio and enabled then
 		Callback = function() end,
 	}, "nmrcinpt")
 
-	--g:CreateBind({
-	--	Name = "bind",
-	--	CurrentValue = "Q",
-	--	Callback = function() end
-	--})
+	-- g:CreateBind({
+	-- 	Name = "bind",
+	-- 	CurrentValue = "Q",
+	-- 	Callback = function() end
+	-- })
 	g2:CreateLabel({
 		Tooltip = "Hi",
 		Name = "Label",
