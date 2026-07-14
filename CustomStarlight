@@ -121,8 +121,12 @@ local GuiService = GetService("GuiService")
 local MarketplaceService = GetService("MarketplaceService")
 local ReplicatedStorage = GetService("ReplicatedStorage")
 local ContentProvider = GetService("ContentProvider")
-local InputManager = GetService("VirtualInputManager")
 local CoreGui = GetService("CoreGui")
+local InputManager
+
+if not getgenv().SecureMode then
+	InputManager = GetService("VirtualInputManager")
+end
 
 local Player = Players.LocalPlayer
 local PlayerGui = Player:WaitForChild("PlayerGui")
@@ -1390,53 +1394,53 @@ local oldSizeX, oldSizeY, oldPosX, oldPosY
 
 -- Hides the given object
 local function Hide(Interface, JustHide: boolean?, Notify: boolean?, Bind: string?)
-	JustHide = JustHide or false
+    if InputManager and not isStudio then
+        if Starlight.Instance.MobileToggle.Visible then
+            pcall(InputManager.SendTouchEvent, InputManager, 0, 0, 0, 0)
+            pcall(InputManager.SendTouchEvent, InputManager, 0, 2, 0, 0)
+        else
+            pcall(InputManager.SendMouseButtonEvent, InputManager, 0, 0, 0, true, game, 0)
+            pcall(InputManager.SendMouseButtonEvent, InputManager, 0, 0, 0, false, game, 0)
+        end
+    end
 
-	if Interface.ClassName == "ScreenGui" then
-		Interface.Enabled = false
-	else
-		Interface.Visible = false
-	end
+    if Interface.ClassName == "ScreenGui" then
+        Interface.Enabled = false
+    else
+        Interface.Visible = false
+    end
 
-	-- hide popups
-	if not isStudio and Starlight.Instance.MobileToggle.Visible then
-		InputManager:SendTouchEvent(0, 0, 0, 0)
-		InputManager:SendTouchEvent(0, 2, 0, 0)
-	elseif not isStudio then
-		InputManager:SendMouseButtonEvent(0, 0, 0, true, game, 0)
-		InputManager:SendMouseButtonEvent(0, 0, 0, false, game, 0)
-	end
+    Starlight.Minimized = true
 
-	if Notify then
-		if Starlight.Instance.MobileToggle.Visible then
-			Starlight:Notification({
-				Title = "Interface Hidden",
-				Icon = 87575513726659,
-				Content = "The Interface Has Been Hidden. You May Reopen It By Pressing The Small Icon Button. ",
-				Duration = 2,
-			})
-		else
-			Starlight:Notification({
-				Title = "Interface Hidden",
-				Icon = 87575513726659,
-				Content = "The Interface Has Been Hidden. You May Reopen It By Pressing The " .. Bind .. " Key.  ",
-				Duration = 2,
-			})
-		end
-	end
-
-	Starlight.Minimized = true
+    if Notify then
+        local msg = Starlight.Instance.MobileToggle.Visible
+            and "The Interface Has Been Hidden. You May Reopen It By Pressing The Small Icon Button. "
+            or ("The Interface Has Been Hidden. You May Reopen It By Pressing The " .. (Bind or Starlight.WindowKeybind) .. " Key.  ")
+        Starlight:Notification({
+            Title = "Interface Hidden",
+            Icon = 87575513726659,
+            Content = msg,
+            Duration = 2,
+        })
+    end
 end
 
--- Unhides the given object which has been hidden by hide
 local function Unhide(Interface)
-	if Interface.ClassName == "ScreenGui" then
-		Interface.Enabled = true
-	else
-		Interface.Visible = true
-	end
+    if Interface.ClassName == "ScreenGui" then
+        Interface.Enabled = true
+    else
+        Interface.Visible = true
+    end
 
+    Starlight.Minimized = false
+    Starlight.Maximized = false
+end
 
+-- Maximizes the window
+local function Maximize(Window: Frame)
+	oldSizeX = Window.Size.X.Offset
+	oldSizeY = Window.Size.Y.Offset
+	oldPosX = Window.Position.X.Offset
 	oldPosY = Window.Position.Y.Offset
 
 	Tween(Window, { Size = UDim2.new(1, -2, 1, -2) }, nil, Tween.Info(nil, nil, 0.38))
