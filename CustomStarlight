@@ -1,5 +1,5 @@
-local vercount = 4 -- Live : 4
-print("Ver_Universal: 2.0." .. vercount)
+local vercount = 1 -- Live : 4
+print("Custom Starlight: " .. vercount)
 
 --[[
 
@@ -8530,30 +8530,6 @@ function Starlight:CreateWindow(WindowSettings)
 				if not isStudio and not isfolder(themesPath) then
 					Starlight.FileSystem:BuildFolderTree(WindowSettings.FileSettings)
 				end
-
-				local windowkeybind = Tab:CreateGroupbox({
-					Name = "Window Keybind",
-					Icon = 6031625148,
-					Column = Column,
-					Style = Style or 1,
-				}, "__prebuiltGuiShortcutGroupbox")
-
-				-- windowkeybind:CreateBind({
-				-- 	Name = "Show / Hide GUI",
-				-- 	CurrentValue = WindowSettings.Keybind,
-				-- 	Callback = function(k)
-				-- 		WindowSettings.Keybind = k
-				-- 		Starlight:SaveConfig()
-				-- 	end,
-				-- }, "guishortcut")
-
-				-- windowkeybind:CreateBind({
-				-- 	Name = "bind",
-				-- 	CurrentValue = "Q",
-				-- 	Callback = function() 
-					
-				-- 	end
-				-- })
 
 				local instance = Tab:CreateGroupbox({
 					Name = "Themes",
