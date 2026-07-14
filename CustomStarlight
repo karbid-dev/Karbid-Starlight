@@ -8528,6 +8528,23 @@ function Starlight:CreateWindow(WindowSettings)
 					Starlight.FileSystem:BuildFolderTree(WindowSettings.FileSettings)
 				end
 
+				local windowkeybind = Tab:CreateGroupbox({
+					Name = "Window Keybind",
+					Icon = 6031625148,
+					Column = Column,
+					Style = Style or 1,
+				}, "__prebuiltGuiShortcutGroupbox")
+
+				windowkeybind:CreateKeybind({
+					Name = "Open/Close GUI",
+					CurrentKeybind = WindowSettings.Keybind,
+					IgnoreConfig = true,
+					Callback = function(k)
+						WindowSettings.Keybind = k
+						Starlight:SaveConfig()
+					end,
+				}, "guishortcut")
+
 				local instance = Tab:CreateGroupbox({
 					Name = "Themes",
 					Icon = 6031625148,
